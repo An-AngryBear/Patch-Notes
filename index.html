@@ -5,27 +5,31 @@
 		<title>Patch Notes</title>
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
-	<body>
 
+	<body ng-app="PatchNotesApp">
 
-	<!-- third party scripts -->
-	<script src="lib/node_modules/jquery/dist/jquery.min.js"></script>
-	<script src="lib/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- third party scripts -->
+		<script src="lib/node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="lib/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
-	<!-- Angular -->
-	<script src="lib/node_modules/angular/angular.min.js"></script>
-	<script src="lib/node_modules/angular-route/angular-route.min.js"></script>
+		<!-- Angular -->
+		<script src="lib/node_modules/angular/angular.min.js"></script>
+		<script src="lib/node_modules/angular-route/angular-route.min.js"></script>
 
-	<!-- Firebase -->
-	<script src="lib/node_modules/firebase/firebase.js"></script>
+		<!-- Firebase -->
+		<script src="lib/node_modules/firebase/firebase.js"></script>
 
-	<!-- App  -->
-	<script src="app/app.js"></script>
+		<!-- App  -->
+		<script src="app/app.js"></script>
 
-	<!-- Providers -->
+		<!-- Providers -->
+		<script src="app/factories/GameFactory.js"></script>
+		<script src="app/factories/SteamIdFactory.js"></script>
+		<script src="app/factories/UserFactory.js"></script>
 
-
-	<!-- Controllers -->
-
+		<!-- Controllers -->
+		<script src="app/controllers/game-controller.js"></script>
+		<script src="app/controllers/user-controller.js"></script>
+		<script src="app/controllers/steam-id-controller.js"></script>
 	</body>
 </html>
