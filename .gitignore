@@ -1,7 +1,5 @@
 css
 lib/node_modules
-values/fb-creds.js
-values/steam-creds.js
+values
 lib/.sass-cache
-server
-values/node_modules
+server/node_modules
