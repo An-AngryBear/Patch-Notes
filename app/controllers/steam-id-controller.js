@@ -12,3 +12,4 @@ patchNotesApp.controller('SteamIdController', function($scope, $routeParams, $wi
 	$scope.steamURL = "";
 
 });
+
