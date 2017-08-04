@@ -8,6 +8,12 @@
 
 	<body ng-app="PatchNotesApp">
 
+		<div ng-controller="SteamIdController">
+			<input type="text" ng-model="steamURL">
+			<button ng-click="fetchSteamId(steamURL)">click me</button>
+		</div>
+
+
 		<!-- third party scripts -->
 		<script src="lib/node_modules/jquery/dist/jquery.min.js"></script>
 		<script src="lib/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -23,6 +29,8 @@
 		<script src="app/app.js"></script>
 
 		<!-- Providers -->
+		<script src="app/values/fb-creds.js"></script>
+		<script src="app/values/steam-creds.js"></script>
 		<script src="app/factories/GameFactory.js"></script>
 		<script src="app/factories/SteamIdFactory.js"></script>
 		<script src="app/factories/UserFactory.js"></script>
