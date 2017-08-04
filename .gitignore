@@ -3,4 +3,4 @@ lib/node_modules
 values/fb-creds.js
 lib/.sass-cache
 server
-values
+values/node_modules
