@@ -3,15 +3,20 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Patch Notes</title>
+		<link rel="stylesheet" type="text/css" href="lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
 
 	<body ng-app="PatchNotesApp">
+		<div ng-include="'partials/navbar.html'"></div>
 
-		<div ng-controller="SteamIdController">
-			<input type="text" ng-model="steamURL">
-			<button ng-click="fetchSteamId(steamURL)">click me</button>
+		<!-- <div ng-controller="SteamController">
+
+			<input type="text" ng-model="appid">
+			<button ng-click="fetchNews(appid)">ID Button</button>
 		</div>
+ -->
+		<div ng-view></div>
 
 
 		<!-- third party scripts -->
@@ -38,6 +43,7 @@
 		<!-- Controllers -->
 		<script src="app/controllers/game-controller.js"></script>
 		<script src="app/controllers/user-controller.js"></script>
-		<script src="app/controllers/steam-id-controller.js"></script>
+		<script src="app/controllers/steam-controller.js"></script>
+		<script src="app/controllers/nav-controller.js"></script>
 	</body>
 </html>

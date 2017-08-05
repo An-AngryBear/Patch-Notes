@@ -12,6 +12,7 @@ patchNotesApp.factory("SteamIdFactory", function($q, $http, FirebaseUrl, SteamCr
 				resolve(steamInfo.data.response.steamid);
 			})
 			.catch( (err) => {
+				console.log("please enter valid vanity URL");
 				reject(err);
 			});
 		});
