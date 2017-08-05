@@ -1,8 +1,9 @@
 'use strict';
 
-patchNotesApp.controller('SteamIdController', function($scope, $routeParams, $window, SteamIdFactory, GameFactory) {
+patchNotesApp.controller('SteamController', function($scope, $routeParams, $window, SteamIdFactory, GameFactory) {
 
 	let userGamesToDisplay = [];
+
 
 	//takes an array of games and filters them out by what the user has played in the
 	//last two weeks. sticks them in userGamesToDisplay array
@@ -12,7 +13,6 @@ patchNotesApp.controller('SteamIdController', function($scope, $routeParams, $wi
 			return game.playtime_2weeks;
 		});
 		userGamesToDisplay = userGamesToDisplay.concat(recentGames);
-		console.log("games played in last 2 weeks", recentGames);
 	};
 
 	//takes an array of games and filters them out by games the user has over 5 hours in
@@ -30,25 +30,62 @@ patchNotesApp.controller('SteamIdController', function($scope, $routeParams, $wi
 			return b.playtime_forever - a.playtime_forever;
 		});
 		userGamesToDisplay = userGamesToDisplay.concat(playedGames);
-		console.log("userGamesToDisplay2", userGamesToDisplay);
 	};
 
+	let narrowGamesForDOM = (arrOfGames) => {
+		userGamesToDisplay = arrOfGames.slice(0, 10);
+	};
+
+	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
+		let updatedGameObjs = arrayOfGameObjs.map( (game) => {
+			GameFactory.getGameNews(game.appid)
+			.then( (newsObj) => {
+				console.log("news?", newsObj);
+			});
+		});
+	};
+
+	//grabs the games that will be displayed in the DOM
 	$scope.fetchSteamGames = (steamProfileName) => {
 		SteamIdFactory.getSteamId(steamProfileName)
 		.then( (data) => {
-			return GameFactory.getOwnedGames(data);
+			if(data) {
+				return GameFactory.getOwnedGames(data);
+			} else {
+				$window.alert("Please Enter Valid Vanity URL name");
+				return null;
+			}
 		})
 		.then( (games) => {
-			console.log("full game list", games);
-			getRecentGames(games);
-			getPlayedGames(games);
+			if (games) {
+				getRecentGames(games);
+				getPlayedGames(games);
+				narrowGamesForDOM(userGamesToDisplay);
+				addNewsAndBannerToObj(userGamesToDisplay);
+				$window.location.href = "#!/game-list";
+				console.log("games for DOM", userGamesToDisplay);
+			}
+		});
+	};
+
+
+	// pass in appid to get news object
+	$scope.fetchNews = (appID) => {
+		GameFactory.getGameNews(appID)
+		.then( (newsHit) => {
+			console.log(newsHit);
+		});
+		GameFactory.getGameBanner(appID)
+		.then( (data) => {
+			console.log(data);
 		});
 	};
 
 
 
-
 	$scope.steamURL = "";
+
+	$scope.appid = "";
 
 });
 

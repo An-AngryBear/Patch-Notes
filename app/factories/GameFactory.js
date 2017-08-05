@@ -6,9 +6,8 @@ patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl, SteamCreds
 
 	let getOwnedGames = (steamId) => {
 		return $q( (resolve, reject) => {
-			$http.get(`http://localhost:4000/steam/game/${apiKey}/${steamId}`)
+			$http.get(`http://localhost:4000/game/${apiKey}/${steamId}`)
 			.then( (steamInfo) => {
-				console.log(steamInfo);
 				resolve(steamInfo.data.response);
 			})
 			.catch( (err) => {
@@ -18,18 +17,27 @@ patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl, SteamCreds
 	};
 
 	let getGameNews = (appId) => {
+		console.log(appId);
 		return $q( (resolve, reject) => {
-			$http.get(`http://localhost:4000/steam/gamenews/${appId}`)
+			$http.get(`http://localhost:4000/news/gamenews/${appId}`)
 			.then( (steamInfo) => {
 				console.log(steamInfo);
-				resolve(steamInfo.data);
+				resolve(steamInfo.data.appnews.newsitems);
 			})
 			.catch( (err) => {
+				console.log("error", err);
 				reject(err);
 			});
 		});
 	};
 
-	return {getOwnedGames, getGameNews};
+	let getGameBanner = (appId) => {
+		console.log("game banner", appId);
+		return $q( (resolve, reject) => {
+			resolve(`http://cdn.edgecast.steamstatic.com/steam/apps/${appId}/header.jpg`);
+		});
+	};
+
+	return {getOwnedGames, getGameNews, getGameBanner};
 
 });
