@@ -1,6 +1,6 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeParams, $window, SteamIdFactory, GameFactory) {
+patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeParams, $window, SteamIdFactory, GameData, GameFactory) {
 
 	let userGamesToDisplay = [];
 
@@ -31,7 +31,10 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 		userGamesToDisplay = userGamesToDisplay.concat(playedGames);
 	};
 
-
+	$scope.goToClickedGame = (appId) =>{
+		console.log(appId);
+		$window.location.href = `#!/patch-notes/${appId}`;
+	};
 
 	let narrowGamesForDOM = (arrOfGames) => {
 		userGamesToDisplay = arrOfGames.slice(0, 16);
@@ -67,9 +70,10 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 				getPlayedGames(games);
 				narrowGamesForDOM(userGamesToDisplay);
 				addNewsAndBannerToObj(userGamesToDisplay);
+				GameData.games = userGamesToDisplay;
+				$rootScope.games = userGamesToDisplay;
 				$window.location.href = "#!/game-list";
 				console.log("games for DOM", userGamesToDisplay);
-				$rootScope.games = userGamesToDisplay;
 			}
 
 		});

@@ -2,8 +2,12 @@
 
 patchNotesApp.factory("GameData", function($q, $http, FirebaseUrl, SteamCreds) {
 
-	let gamesToDisplay = [];
-	let gamesService = {};
+	let gameData = {};
+	gameData.games = [];
 
-	return null;
+	gameData.add = (game) => {
+		gameData.games.push(game);
+	};
+
+	return gameData;
 });

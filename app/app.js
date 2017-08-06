@@ -13,7 +13,7 @@ patchNotesApp.config( ($routeProvider) => {
   	templateUrl: 'partials/game-list.html',
   	controller: 'SteamController'
   })
-  .when('/patch-notes', {
+  .when('/patch-notes/:appid', {
   	templateUrl: 'partials/patch-notes.html',
   	controller: 'PatchNotesController'
   })
