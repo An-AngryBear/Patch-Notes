@@ -1,9 +1,8 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function($scope, $routeParams, $window, SteamIdFactory, GameFactory) {
+patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeParams, $window, SteamIdFactory, GameFactory) {
 
 	let userGamesToDisplay = [];
-
 
 	//takes an array of games and filters them out by what the user has played in the
 	//last two weeks. sticks them in userGamesToDisplay array
@@ -32,15 +31,21 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 		userGamesToDisplay = userGamesToDisplay.concat(playedGames);
 	};
 
+
+
 	let narrowGamesForDOM = (arrOfGames) => {
 		userGamesToDisplay = arrOfGames.slice(0, 10);
 	};
 
 	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
-		let updatedGameObjs = arrayOfGameObjs.map( (game) => {
+		let updatedGameObjs = arrayOfGameObjs.forEach( (game) => {
 			GameFactory.getGameNews(game.appid)
-			.then( (newsObj) => {
-				console.log("news?", newsObj);
+				.then( (newsObj) => {
+					game.news = newsObj;
+					return GameFactory.getGameBanner(game.appid)
+				.then( (gameBannerUrl) => {
+					game.banner = gameBannerUrl;
+				});
 			});
 		});
 	};
@@ -64,8 +69,11 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 				addNewsAndBannerToObj(userGamesToDisplay);
 				$window.location.href = "#!/game-list";
 				console.log("games for DOM", userGamesToDisplay);
+				$rootScope.games = userGamesToDisplay;
 			}
+
 		});
+
 	};
 
 
