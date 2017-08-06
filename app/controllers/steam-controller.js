@@ -1,6 +1,6 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function($scope, $routeParams, $window, SteamIdFactory, GameFactory) {
+patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeParams, $window, SteamIdFactory, GameFactory) {
 
 	let userGamesToDisplay = [];
 
@@ -40,13 +40,13 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
 		let updatedGameObjs = arrayOfGameObjs.forEach( (game) => {
 			GameFactory.getGameNews(game.appid)
-			.then( (newsObj) => {
-				game.news = newsObj;
-				return GameFactory.getGameBanner(game.appid)
-			.then( (gameBannerUrl) => {
-				game.banner = gameBannerUrl;
+				.then( (newsObj) => {
+					game.news = newsObj;
+					return GameFactory.getGameBanner(game.appid)
+				.then( (gameBannerUrl) => {
+					game.banner = gameBannerUrl;
+				});
 			});
-		});
 		});
 	};
 
@@ -69,8 +69,11 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 				addNewsAndBannerToObj(userGamesToDisplay);
 				$window.location.href = "#!/game-list";
 				console.log("games for DOM", userGamesToDisplay);
+				$rootScope.games = userGamesToDisplay;
 			}
+
 		});
+
 	};
 
 
