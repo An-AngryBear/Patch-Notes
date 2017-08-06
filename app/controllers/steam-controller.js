@@ -54,14 +54,19 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 	};
 
 	//grabs the games that will be displayed in the DOM
+	//authenticates steam ID/vanityURL throws alert if done incorrectly
 	$scope.fetchSteamGames = (steamProfileName) => {
+		console.log("PENDING PROMISE", Object.values(SteamIdFactory.getSteamId(steamProfileName)));
+
 		SteamIdFactory.getSteamId(steamProfileName)
 		.then( (data) => {
 			if(data) {
 				return GameFactory.getOwnedGames(data);
 			} else {
-				$window.alert("Please Enter Valid Vanity URL name");
-				return null;
+				return GameFactory.getOwnedGames(steamProfileName)
+				.catch( (err) => {
+					console.log("Invalid Steam ID/Vanity URL", err);
+				});
 			}
 		})
 		.then( (games) => {
@@ -74,6 +79,8 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 				$rootScope.games = userGamesToDisplay;
 				$window.location.href = "#!/game-list";
 				console.log("games for DOM", userGamesToDisplay);
+			} else {
+				$window.alert("Please Enter Valid Vanity URL name or Steam ID");
 			}
 		});
 	};
