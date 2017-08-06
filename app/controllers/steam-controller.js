@@ -34,7 +34,7 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 
 
 	let narrowGamesForDOM = (arrOfGames) => {
-		userGamesToDisplay = arrOfGames.slice(0, 10);
+		userGamesToDisplay = arrOfGames.slice(0, 16);
 	};
 
 	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
