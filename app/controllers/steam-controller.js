@@ -37,7 +37,7 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 	};
 
 	let narrowGamesForDOM = (arrOfGames) => {
-		userGamesToDisplay = arrOfGames.slice(0, 16);
+		userGamesToDisplay = arrOfGames.slice(0, 20);
 	};
 
 	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
@@ -75,25 +75,8 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 				$window.location.href = "#!/game-list";
 				console.log("games for DOM", userGamesToDisplay);
 			}
-
-		});
-
-	};
-
-
-	// pass in appid to get news object
-	$scope.fetchNews = (appID) => {
-		GameFactory.getGameNews(appID)
-		.then( (newsHit) => {
-			console.log(newsHit);
-		});
-		GameFactory.getGameBanner(appID)
-		.then( (data) => {
-			console.log(data);
 		});
 	};
-
-
 
 	$scope.steamURL = "";
 

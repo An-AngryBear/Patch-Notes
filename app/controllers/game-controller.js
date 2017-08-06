@@ -5,4 +5,6 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	console.log("this", this);
 
 	self.gameData = GameData.games;
+
+	//match id from route params to self object and pull news
 });
