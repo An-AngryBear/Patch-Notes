@@ -1,3 +1,8 @@
 <div class="container">
-	<div ng-repeat="game in games.gameData">{{game}}</div>
+	<img src={{gameObj.banner}}>
+	<h1>Patch Notes for {{gameObj.name}}</h1>
+	<div ng-repeat="news in gameNews">
+		<h2>{{news.title}}</h2>
+		<div ng-bind-html=news.contents></div>
+	</div>
 </div>

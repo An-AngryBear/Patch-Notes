@@ -1,6 +1,6 @@
 'use strict';
 
-let patchNotesApp = angular.module("PatchNotesApp", ["ngRoute"])
+let patchNotesApp = angular.module("PatchNotesApp", ["ngRoute", "ngSanitize"])
 .constant("FirebaseUrl", "https://patch-notes-919df.firebaseio.com/");
 
 patchNotesApp.config( ($routeProvider) => {
