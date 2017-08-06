@@ -4,7 +4,6 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 
 	let userGamesToDisplay = [];
 
-
 	//takes an array of games and filters them out by what the user has played in the
 	//last two weeks. sticks them in userGamesToDisplay array
 	let getRecentGames = (games) => {
@@ -32,16 +31,22 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 		userGamesToDisplay = userGamesToDisplay.concat(playedGames);
 	};
 
+
+
 	let narrowGamesForDOM = (arrOfGames) => {
 		userGamesToDisplay = arrOfGames.slice(0, 10);
 	};
 
 	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
-		let updatedGameObjs = arrayOfGameObjs.map( (game) => {
+		let updatedGameObjs = arrayOfGameObjs.forEach( (game) => {
 			GameFactory.getGameNews(game.appid)
 			.then( (newsObj) => {
-				console.log("news?", newsObj);
+				game.news = newsObj;
+				return GameFactory.getGameBanner(game.appid)
+			.then( (gameBannerUrl) => {
+				game.banner = gameBannerUrl;
 			});
+		});
 		});
 	};
 

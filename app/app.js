@@ -13,5 +13,9 @@ patchNotesApp.config( ($routeProvider) => {
   	templateUrl: 'partials/game-list.html',
   	controller: 'SteamController'
   })
+  .when('/patch-notes', {
+  	templateUrl: 'partials/patch-notes.html',
+  	controller: 'PatchNotesController'
+  })
   .otherwise('/');
 });

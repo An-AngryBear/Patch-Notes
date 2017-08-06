@@ -17,11 +17,9 @@ patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl, SteamCreds
 	};
 
 	let getGameNews = (appId) => {
-		console.log(appId);
 		return $q( (resolve, reject) => {
 			$http.get(`http://localhost:4000/news/gamenews/${appId}`)
 			.then( (steamInfo) => {
-				console.log(steamInfo);
 				resolve(steamInfo.data.appnews.newsitems);
 			})
 			.catch( (err) => {
@@ -32,7 +30,6 @@ patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl, SteamCreds
 	};
 
 	let getGameBanner = (appId) => {
-		console.log("game banner", appId);
 		return $q( (resolve, reject) => {
 			resolve(`http://cdn.edgecast.steamstatic.com/steam/apps/${appId}/header.jpg`);
 		});
