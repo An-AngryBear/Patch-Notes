@@ -12,8 +12,8 @@ patchNotesApp.controller('PatchNotesController', function($scope, $rootScope, $r
 				console.log("before parse", newsObj);
 				var result = XBBCODE.process({
 				      text: newsObj.contents,
-				      removeMisalignedTags: false,
-				      addInLineBreaks: false
+				      removeMisalignedTags: true,
+				      addInLineBreaks: true
 				    });
 				newsObj.contents = result.html;
 			}
