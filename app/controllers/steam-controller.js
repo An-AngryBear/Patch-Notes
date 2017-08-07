@@ -40,13 +40,7 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 		userGamesToDisplay = arrOfGames.slice(0, 20);
 	};
 
-	let parseBBCode = (newsArray) => {
-		let parsedCode = newsArray.map( (newsObj) => {
-			if (newsObj.contents.indexOf("[img]" || "[b]" || "[td]") >= 0) {
-				console.log("is it bbcode?", newsObj);
-			}
-		});
-	};
+
 
 	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
 		let updatedGameObjs = arrayOfGameObjs.forEach( (game) => {

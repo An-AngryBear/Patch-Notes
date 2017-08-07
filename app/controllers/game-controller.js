@@ -8,7 +8,7 @@ patchNotesApp.controller('PatchNotesController', function($scope, $rootScope, $r
 
 	let parseBBCode = (newsArray) => {
 		let parsedCode = newsArray.map( (newsObj) => {
-			if (newsObj.contents.indexOf("[img]" || "[b]" || "[td]") >= 0) {
+			if (newsObj.contents.search(/\[img]|\[b]|\[\*]|\[list]/g) >= 0) {
 				console.log("before parse", newsObj);
 				var result = XBBCODE.process({
 				      text: newsObj.contents,
