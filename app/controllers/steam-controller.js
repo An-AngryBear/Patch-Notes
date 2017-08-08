@@ -1,7 +1,8 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeParams, $window, SteamIdFactory, GameData, GameFactory) {
+patchNotesApp.controller('SteamController', function(	$scope, $routeParams, $window, SteamIdFactory, GameData, GameFactory) {
 
+	$scope.games = [];
 	let userGamesToDisplay = [];
 
 	//takes an array of games and filters them out by what the user has played in the
@@ -32,7 +33,6 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 	};
 
 	$scope.goToClickedGame = (appId) =>{
-		console.log(appId);
 		$window.location.href = `#!/patch-notes/${appId}`;
 	};
 
@@ -40,18 +40,12 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 		userGamesToDisplay = arrOfGames.slice(0, 20);
 	};
 
-
-
-	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
+	let addBannerToObj = (arrayOfGameObjs) => {
 		let updatedGameObjs = arrayOfGameObjs.forEach( (game) => {
-			GameFactory.getGameNews(game.appid)
-				.then( (newsObj) => {
-					game.news = newsObj;
-					return GameFactory.getGameBanner(game.appid)
+			GameFactory.getGameBanner(game.appid)
 				.then( (gameBannerUrl) => {
 					game.banner = gameBannerUrl;
 				});
-			});
 		});
 	};
 
@@ -60,12 +54,14 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 	let fetchSteamGames = (steamProfileName) => {
 		SteamIdFactory.getSteamId(steamProfileName)
 		.then( (data) => {
+			console.log("hey data", data);
 			if(data) {
 				return GameFactory.getOwnedGames(data);
 			} else {
 				return GameFactory.getOwnedGames(steamProfileName)
 				.catch( (err) => {
 					console.log("Invalid Steam ID/Vanity URL", err);
+					$window.location.href = '#!/';
 				});
 			}
 		})
@@ -74,9 +70,9 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 				getRecentGames(games);
 				getPlayedGames(games);
 				narrowGamesForDOM(userGamesToDisplay);
-				addNewsAndBannerToObj(userGamesToDisplay);
+				addBannerToObj(userGamesToDisplay);
 				GameData.games = userGamesToDisplay;
-				$rootScope.games = userGamesToDisplay;
+				$scope.games = userGamesToDisplay;
 				console.log("games for DOM", userGamesToDisplay);
 			} else {
 				$window.alert("Please Enter Valid Vanity URL name or Steam ID");
