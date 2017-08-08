@@ -29,7 +29,7 @@ app.get('/game/:steamkey/:steamid', function(httpRequest, httpResponse) {
 
 app.get('/news/gamenews/:appid', function(httpRequest, httpResponse) {
     console.log("news", httpRequest.params.appid);
-    let url = `http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=${httpRequest.params.appid}&count=10&format=json`
+    let url = `http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=${httpRequest.params.appid}&count=30&format=json`
     request(url, function(error, steamHttpResponse, steamHttpBody) {
         httpResponse.setHeader('Content-Type', 'application/json');
         httpResponse.send(steamHttpBody);

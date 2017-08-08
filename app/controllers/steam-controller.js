@@ -1,7 +1,8 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeParams, $window, SteamIdFactory, GameFactory) {
+patchNotesApp.controller('SteamController', function(	$scope, $routeParams, $window, SteamIdFactory, GameData, GameFactory) {
 
+	$scope.games = [];
 	let userGamesToDisplay = [];
 
 	//takes an array of games and filters them out by what the user has played in the
@@ -31,34 +32,37 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 		userGamesToDisplay = userGamesToDisplay.concat(playedGames);
 	};
 
-
-
-	let narrowGamesForDOM = (arrOfGames) => {
-		userGamesToDisplay = arrOfGames.slice(0, 10);
+	$scope.goToClickedGame = (appId) =>{
+		$window.location.href = `#!/patch-notes/${appId}`;
 	};
 
-	let addNewsAndBannerToObj = (arrayOfGameObjs) => {
+	let narrowGamesForDOM = (arrOfGames) => {
+		userGamesToDisplay = arrOfGames.slice(0, 20);
+	};
+
+	let addBannerToObj = (arrayOfGameObjs) => {
 		let updatedGameObjs = arrayOfGameObjs.forEach( (game) => {
-			GameFactory.getGameNews(game.appid)
-				.then( (newsObj) => {
-					game.news = newsObj;
-					return GameFactory.getGameBanner(game.appid)
+			GameFactory.getGameBanner(game.appid)
 				.then( (gameBannerUrl) => {
 					game.banner = gameBannerUrl;
 				});
-			});
 		});
 	};
 
 	//grabs the games that will be displayed in the DOM
-	$scope.fetchSteamGames = (steamProfileName) => {
+	//authenticates steam ID/vanityURL throws alert if done incorrectly
+	let fetchSteamGames = (steamProfileName) => {
 		SteamIdFactory.getSteamId(steamProfileName)
 		.then( (data) => {
+			console.log("hey data", data);
 			if(data) {
 				return GameFactory.getOwnedGames(data);
 			} else {
-				$window.alert("Please Enter Valid Vanity URL name");
-				return null;
+				return GameFactory.getOwnedGames(steamProfileName)
+				.catch( (err) => {
+					console.log("Invalid Steam ID/Vanity URL", err);
+					$window.location.href = '#!/';
+				});
 			}
 		})
 		.then( (games) => {
@@ -66,32 +70,17 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 				getRecentGames(games);
 				getPlayedGames(games);
 				narrowGamesForDOM(userGamesToDisplay);
-				addNewsAndBannerToObj(userGamesToDisplay);
-				$window.location.href = "#!/game-list";
+				addBannerToObj(userGamesToDisplay);
+				GameData.games = userGamesToDisplay;
+				$scope.games = userGamesToDisplay;
 				console.log("games for DOM", userGamesToDisplay);
-				$rootScope.games = userGamesToDisplay;
+			} else {
+				$window.alert("Please Enter Valid Vanity URL name or Steam ID");
 			}
-
-		});
-
-	};
-
-
-	// pass in appid to get news object
-	$scope.fetchNews = (appID) => {
-		GameFactory.getGameNews(appID)
-		.then( (newsHit) => {
-			console.log(newsHit);
-		});
-		GameFactory.getGameBanner(appID)
-		.then( (data) => {
-			console.log(data);
 		});
 	};
 
-
-
-	$scope.steamURL = "";
+	fetchSteamGames($routeParams.steamname);
 
 	$scope.appid = "";
 

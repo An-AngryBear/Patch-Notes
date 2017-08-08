@@ -5,6 +5,7 @@ patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl, SteamCreds
 	let apiKey = SteamCreds.key;
 
 	let getOwnedGames = (steamId) => {
+		console.log("STeAM ID", steamId);
 		return $q( (resolve, reject) => {
 			$http.get(`http://localhost:4000/game/${apiKey}/${steamId}`)
 			.then( (steamInfo) => {

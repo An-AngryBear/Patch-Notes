@@ -1,9 +1,14 @@
 'use strict';
 
-patchNotesApp.factory("GameData", function($q, $http, FirebaseUrl, SteamCreds) {
+patchNotesApp.factory("GameData", function($q, $http, FirebaseUrl) {
 
-	let gamesToDisplay = [];
-	let gamesService = {};
+	//service for supplying the application the most current gamedata objs
+	let gameData = {};
+	gameData.games = [];
 
-	return null;
+	gameData.add = (game) => {
+		gameData.games.push(game);
+	};
+
+	return gameData;
 });
