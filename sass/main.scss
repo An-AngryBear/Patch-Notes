@@ -1,6 +1,6 @@
 
 
-.enter-url {
+.enter-url, .enter-login {
 	width: 80%;
 	margin: 0 auto;
 	text-align: center;
@@ -40,4 +40,30 @@
 	}
 }
 
+.glyphicon-remove, .glyphicon-star-empty {
+	position: absolute;
+	font-size: 1.5em;
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
 
+.glyphicon-star-empty {
+	color: #ffbb00;
+	top: 2px;
+	right: 2px;
+}
+
+.glyphicon-remove {
+	color: #af0a0a;
+	top: 2px;
+	left: 2px;
+}
+
+.img-container:hover {
+	box-shadow: 0px 0px 50px purple;
+	z-index: 999;
+	transition-duration: .4s;
+}
+
+.img-container {
+	transition-duration: 1s;
+}

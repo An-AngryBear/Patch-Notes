@@ -9,6 +9,10 @@ patchNotesApp.config( ($routeProvider) => {
     templateUrl: 'partials/enter-url.html',
     controller: 'EnterUrlController'
   })
+  .when('/login', {
+    templateUrl: 'partials/login.html',
+    controller: 'UserController'
+  })
   .when('/game-list/:steamname', {
   	templateUrl: 'partials/game-list.html',
   	controller: 'SteamController'
