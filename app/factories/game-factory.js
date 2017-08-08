@@ -18,7 +18,6 @@ patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl, SteamCreds
 	};
 
 	let getGameNews = (appId) => {
-		// console.log("APPID", appId);
 		return $q( (resolve, reject) => {
 			$http.get(`http://localhost:4000/news/gamenews/${appId}`)
 			.then( (steamInfo) => {

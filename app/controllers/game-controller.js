@@ -1,6 +1,6 @@
 'use strict';
 
-patchNotesApp.controller('PatchNotesController', function($scope, $rootScope, $routeParams, $window, GameData) {
+patchNotesApp.controller('PatchNotesController', function($scope, $rootScope, $routeParams, $window, GameData, GameFactory) {
 
 	let self = this;
 	console.log("this", this);
@@ -23,23 +23,18 @@ patchNotesApp.controller('PatchNotesController', function($scope, $rootScope, $r
 	let findAndReplaceExtraBBCode = (news) => {
 		let replaced = news.replace(/&#91;/g, "[")
 			.replace(/&#93;/g, "]")
-			.replace(/\[h1]/g, "<h1>")
-			.replace(/\[\/h1]/g, "</h1>")
+			.replace(/\[h1]/gi, "<h1>")
+			.replace(/\[\/h1]/gi, "</h1>")
 			.replace(/\[\/\*]/g, "")
-			.replace(/\[\/olist\]/g, "</ol>")
-			.replace(/\[olist..]/g, "<ol>");
-		// newsObj.contents = newsObj.contents.replace(/\[\/h1]/g, "</h1>");
-		// newsObj.contents = newsObj.contents.replace(/\[\/\*]/g, "");
-		console.log(replaced, "please work");
+			.replace(/\[\/olist\]/gi, "</ol>")
+			.replace(/\[olist..]/gi, "<ol>");
 		return replaced;
 	};
 
 	// TODO: expand bbcode search terms; also change [h1] to <h1> and remove [/*]
 	let parseBBCode = (newsArray) => {
 		let parsedCode = newsArray.map( (newsObj) => {
-			console.log("pre filtered", newsObj);
 			if (newsObj.contents.search(/\[img]|\[b]|\[\*]|\[url|\[list]/g) >= 0) {
-				// console.log("before parse", newsObj);
 				var result = XBBCODE.process({
 				      text: newsObj.contents,
 				      removeMisalignedTags: true,
@@ -53,20 +48,19 @@ patchNotesApp.controller('PatchNotesController', function($scope, $rootScope, $r
 		return parsedCode;
 	};
 
+	$rootScope.gameObj = {};
 
 	let displayPatchNotes = () => {
-		console.log($routeParams.appid);
-		let gameNotesToDisplay = self.gameData.filter( (game) => {
-			return game.appid == $routeParams.appid;
+		let appId = $routeParams.appid;
+		GameFactory.getGameBanner(appId)
+		.then( (banner) => {
+			$rootScope.gameObj.banner = banner;
 		});
-		$rootScope.gameObj = gameNotesToDisplay[0];
-		$rootScope.gameNews = parseBBCode(gameNotesToDisplay[0].news);
-		console.log($rootScope.gameNews);
+		GameFactory.getGameNews($routeParams.appid)
+		.then( (newsArray) => {
+			$rootScope.gameNews = parseBBCode(newsArray);
+		});
 	};
-
-	//TODO:NG-repeat over NEWS hits, not game obj
-
-	//TODO: bbcode parser
 
 	let changeDateFormat = (gameObj) => {
 

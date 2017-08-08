@@ -1,8 +1,7 @@
 <div class="container game-news">
 	<img src={{gameObj.banner}}>
-	<h1>Patch Notes for {{gameObj.name}}</h1>
 	<div ng-repeat="news in gameNews | filter: filterFn">
-		<h2>{{news.title}}</h2>
+		<h3 class="news-titles">{{news.title}}</h3>
 		<div class="game-news"ng-bind-html=news.contents></div>
 	</div>
 </div>

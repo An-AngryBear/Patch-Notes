@@ -57,9 +57,7 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 
 	//grabs the games that will be displayed in the DOM
 	//authenticates steam ID/vanityURL throws alert if done incorrectly
-	$scope.fetchSteamGames = (steamProfileName) => {
-		console.log("PENDING PROMISE", Object.values(SteamIdFactory.getSteamId(steamProfileName)));
-
+	let fetchSteamGames = (steamProfileName) => {
 		SteamIdFactory.getSteamId(steamProfileName)
 		.then( (data) => {
 			if(data) {
@@ -79,7 +77,6 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 				addNewsAndBannerToObj(userGamesToDisplay);
 				GameData.games = userGamesToDisplay;
 				$rootScope.games = userGamesToDisplay;
-				$window.location.href = "#!/game-list";
 				console.log("games for DOM", userGamesToDisplay);
 			} else {
 				$window.alert("Please Enter Valid Vanity URL name or Steam ID");
@@ -87,7 +84,7 @@ patchNotesApp.controller('SteamController', function($rootScope, $scope, $routeP
 		});
 	};
 
-	$scope.steamURL = "";
+	fetchSteamGames($routeParams.steamname);
 
 	$scope.appid = "";
 
