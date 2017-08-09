@@ -1,6 +1,6 @@
 'use strict';
 
-patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, $window, GameFactory) {
+patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, $window, GameFactory, UserData) {
 
 	$scope.gameObj = {};
 	$scope.gameNews = [];

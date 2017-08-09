@@ -1,9 +1,37 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function(	$scope, $routeParams, $window, SteamIdFactory, GameData, GameFactory) {
+patchNotesApp.controller('SteamController', function($scope, $routeParams, $window, SteamIdFactory, UserFactory, UserData, GameData, GameFactory) {
 
 	$scope.games = [];
 	let userGamesToDisplay = [];
+	let currentUser = null;
+
+	UserFactory.isAuthenticated()
+	.then( (user) => {
+	  console.log("user status", user);
+	  currentUser = UserFactory.getUser();
+	  console.log("auth?", currentUser);
+	});
+
+	$scope.isUserIn = () => {
+		if(currentUser) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	$scope.hideClickedGame = (appid) => {
+		let removedGame = {
+			uid: currentUser,
+			appid: appid,
+			removed: true
+		};
+		UserData.postGame(removedGame)
+		.then( (data) => {
+			console.log("hiding game", data);
+		});
+	};
 
 	//takes an array of games and filters them out by what the user has played in the
 	//last two weeks. sticks them in userGamesToDisplay array
@@ -49,6 +77,17 @@ patchNotesApp.controller('SteamController', function(	$scope, $routeParams, $win
 		});
 	};
 
+	let saveSteamId = (steamId) => {
+		let steamIdObj = {
+			uid: currentUser,
+			steamid: steamId
+		};
+		UserData.postSteamId(steamIdObj)
+		.then( (postData) => {
+			console.log("postData", postData);
+		});
+	};
+
 	//grabs the games that will be displayed in the DOM
 	//authenticates steam ID/vanityURL throws alert if done incorrectly
 	let fetchSteamGames = (steamProfileName) => {
@@ -56,8 +95,10 @@ patchNotesApp.controller('SteamController', function(	$scope, $routeParams, $win
 		.then( (data) => {
 			console.log("hey data", data);
 			if(data) {
+				saveSteamId(data);
 				return GameFactory.getOwnedGames(data);
 			} else {
+				saveSteamId(steamProfileName);
 				return GameFactory.getOwnedGames(steamProfileName)
 				.catch( (err) => {
 					console.log("Invalid Steam ID/Vanity URL", err);

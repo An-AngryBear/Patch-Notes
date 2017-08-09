@@ -2,6 +2,5 @@
 	<img src={{gameObj.banner}}>
 	<div ng-repeat="news in gameNews | filter: filterFn">
 		<h3 class="news-titles">{{news.title}}</h3>
-		<div class="game-news"ng-bind-html=news.contents></div>
+		<div class="game-news" ng-bind-html=news.contents></div>
 	</div>
-</div>

@@ -22,6 +22,7 @@ patchNotesApp.factory("UserFactory", function($q, $http, FirebaseUrl, FBCreds) {
           currentUser = user.uid;
           resolve(true);
         } else {
+          currentUser = null;
           resolve(false);
         }
       });
