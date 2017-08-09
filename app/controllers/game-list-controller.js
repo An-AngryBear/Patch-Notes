@@ -78,13 +78,19 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 	};
 
 	let saveSteamId = (steamId) => {
-		let steamIdObj = {
-			uid: currentUser,
-			steamid: steamId
-		};
-		UserData.postSteamId(steamIdObj)
-		.then( (postData) => {
-			console.log("postData", postData);
+		UserData.getSteamId(currentUser)
+		.then( (steamID) => {
+			console.log(Object.values(steamID.data));
+			if(Object.values(steamID.data).length === 0 && currentUser) {
+				let steamIdObj = {
+					uid: currentUser,
+					steamid: steamId
+				};
+				UserData.postSteamId(steamIdObj)
+				.then( (postData) => {
+					console.log("postData", postData);
+				});
+			}
 		});
 	};
 
