@@ -13,20 +13,20 @@ patchNotesApp.controller('NavController', function($scope, $routeParams, $window
 		});
 	};
 
-	$scope.resetRemoved = () => {
-		UserData.getGames(UserFactory.getUser())
-		.then( (games) => {
-			let removedGames = Object.keys(games);
-			removedGames.map( (gameId) => {
-				UserData.deleteGame(gameId)
-				.then( (data) => {
-					console.log(data);
-					$route.reload();
-				});
-			});
+	// $scope.resetRemoved = () => {
+	// 	UserData.getGames(UserFactory.getUser())
+	// 	.then( (games) => {
+	// 		let removedGames = Object.keys(games);
+	// 		removedGames.map( (gameId) => {
+	// 			UserData.deleteGame(gameId)
+	// 			.then( (data) => {
+	// 				console.log(data);
+	// 				$route.reload();
+	// 			});
+	// 		});
 
-		});
-	};
+	// 	});
+	// };
 
 	$scope.userCheck = () => {
 		let currentUser = UserFactory.getUser();

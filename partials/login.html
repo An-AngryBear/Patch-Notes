@@ -1,11 +1,12 @@
+<div ng-include="'partials/navbar.html'"></div>
 <div class="enter-login center-box">
   <section class="user-form">
     <h1>Login or Register</h1>
     <div>
-      <input type="email" placeholder="Enter Email..." ng-model="account.email">
+      <input class="input-box" type="email" placeholder="Enter Email..." ng-model="account.email">
     </div>
     <div>
-      <input type="password" placeholder="Password..." ng-model="account.password">
+      <input class="input-box" type="password" placeholder="Password..." ng-model="account.password">
     </div>
     <div>
       <button class="btn btn-info" ng-click="login()">Log in</button>

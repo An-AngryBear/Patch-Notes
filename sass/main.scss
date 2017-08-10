@@ -14,6 +14,7 @@ html {
 .navbar {
 	border-radius: 0;
 	margin-bottom: 0px;
+	background-color: #101412;
 }
 
 body {
@@ -94,4 +95,8 @@ body {
 
 .img-container {
 	transition-duration: 1s;
+}
+
+.input-box {
+	color: black;
 }

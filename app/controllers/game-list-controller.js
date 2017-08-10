@@ -151,6 +151,21 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 		});
 	};
 
+	$scope.resetRemoved = () => {
+		UserData.getGames(UserFactory.getUser())
+		.then( (games) => {
+			let removedGames = Object.keys(games);
+			removedGames.map( (gameId) => {
+				UserData.deleteGame(gameId)
+				.then( (data) => {
+					console.log(data);
+					fetchSteamGames($routeParams.steamname);
+				});
+			});
+
+		});
+	};
+
 	fetchSteamGames($routeParams.steamname);
 
 	$scope.appid = "";
