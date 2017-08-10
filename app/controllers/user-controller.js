@@ -9,7 +9,6 @@ patchNotesApp.controller('UserController', function($scope, $routeParams, $windo
  	};
 
  	$scope.register = () => {
- 	  console.log("you clicked register");
  	  UserFactory.createUser($scope.account)
  	  .then( (userData) => {
  	    console.log("New User!", userData);
@@ -27,7 +26,7 @@ patchNotesApp.controller('UserController', function($scope, $routeParams, $windo
   			$window.location.href = `#!/game-list/${steamID}/${userData.uid}`;
  	  	})
  	  	.catch( (err) => {
- 	  		console.log("NO STEAM ID");
+ 	  		console.log("NO STEAM ID FOUND");
  	  		$window.location.href = "#!/";
  	  	});
  	  });

@@ -8,9 +8,8 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 
 	UserFactory.isAuthenticated()
 	.then( (user) => {
-	  console.log("user status", user);
+	  console.log("user status:gameList", user);
 	  currentUser = UserFactory.getUser();
-	  console.log("auth?", currentUser);
 	});
 
 	$scope.isUserIn = () => {
@@ -19,18 +18,6 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 		} else {
 			return false;
 		}
-	};
-
-	$scope.hideClickedGame = (appid) => {
-		let removedGame = {
-			uid: currentUser,
-			appid: appid,
-			removed: true
-		};
-		UserData.postGame(removedGame)
-		.then( (data) => {
-			console.log("hiding game", data);
-		});
 	};
 
 	//takes an array of games and filters them out by what the user has played in the
@@ -64,8 +51,37 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 		$window.location.href = `#!/patch-notes/${appId}`;
 	};
 
+	let removeGamesFromList = (arrOfGames) => {
+		let updatedGames;
+		return new Promise( (resolve, reject) => {
+			UserData.getGames(currentUser)
+				.then( (games) => {
+					let gamesToCheckFor = Object.values(games);
+					let idsToRemove = gamesToCheckFor.map( (game) => {
+						if(game.removed === true) {
+							return game.appid;
+						}
+					});
+					let updatedGames = arrOfGames.filter( (game) => {
+						if(idsToRemove.indexOf(game.appid) === -1) {
+							return game;
+						}
+					});
+
+					resolve(updatedGames);
+				});
+			});
+	};
+
 	let narrowGamesForDOM = (arrOfGames) => {
-		userGamesToDisplay = arrOfGames.slice(0, 20);
+		let narrowedGames;
+		return new Promise( (resolve, reject) => {
+			removeGamesFromList(arrOfGames)
+			.then( (updatedGames) => {
+				narrowedGames = updatedGames.slice(0, 20);
+				resolve(narrowedGames);
+			});
+		});
 	};
 
 	let addBannerToObj = (arrayOfGameObjs) => {
@@ -80,7 +96,6 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 	let saveSteamId = (steamId) => {
 		UserData.getSteamId(currentUser)
 		.then( (steamID) => {
-			console.log(Object.values(steamID.data));
 			if(Object.values(steamID.data).length === 0 && currentUser) {
 				let steamIdObj = {
 					uid: currentUser,
@@ -88,7 +103,6 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 				};
 				UserData.postSteamId(steamIdObj)
 				.then( (postData) => {
-					console.log("postData", postData);
 				});
 			}
 		});
@@ -99,7 +113,6 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 	let fetchSteamGames = (steamProfileName) => {
 		SteamIdFactory.getSteamId(steamProfileName)
 		.then( (data) => {
-			console.log("hey data", data);
 			if(data) {
 				saveSteamId(data);
 				return GameFactory.getOwnedGames(data);
@@ -107,7 +120,6 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 				saveSteamId(steamProfileName);
 				return GameFactory.getOwnedGames(steamProfileName)
 				.catch( (err) => {
-					console.log("Invalid Steam ID/Vanity URL", err);
 					$window.location.href = '#!/';
 				});
 			}
@@ -116,14 +128,26 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 			if (games) {
 				getRecentGames(games);
 				getPlayedGames(games);
-				narrowGamesForDOM(userGamesToDisplay);
-				addBannerToObj(userGamesToDisplay);
-				GameData.games = userGamesToDisplay;
-				$scope.games = userGamesToDisplay;
-				console.log("games for DOM", userGamesToDisplay);
+				narrowGamesForDOM(userGamesToDisplay)
+				.then( (narrowedGames) =>{
+					addBannerToObj(narrowedGames);
+					$scope.games = narrowedGames;
+				});
 			} else {
 				$window.alert("Please Enter Valid Vanity URL name or Steam ID");
 			}
+		});
+	};
+
+	$scope.hideClickedGame = (appid) => {
+		let removedGame = {
+			uid: currentUser,
+			appid: appid,
+			removed: true
+		};
+		UserData.postGame(removedGame)
+		.then( (data) => {
+			fetchSteamGames($routeParams.steamname);
 		});
 	};
 

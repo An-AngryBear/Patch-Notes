@@ -24,6 +24,5 @@ patchNotesApp.controller('EnterUrlController', function($scope, $routeParams, $w
 
 	$scope.enterSteamName = () => {
 		$window.location.href = `#!/game-list/${$scope.steamURL}`;
-		console.log("WHAT IS YOUR CURRENT USER?", currentUser);
 	};
 });

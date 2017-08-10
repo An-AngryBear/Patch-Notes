@@ -1,9 +1,33 @@
+$darksteam: #222222;
 
+html {
+	background: url(../img/background-img.png) center center fixed;
+	background-size: cover;
+}
 
 .enter-url, .enter-login {
 	width: 80%;
 	margin: 0 auto;
 	text-align: center;
+}
+
+.navbar {
+	border-radius: 0;
+	margin-bottom: 0px;
+}
+
+body {
+	background: rgba(0, 0, 0, 0);
+}
+
+.center-box {
+	background-color: rgba(22,22,22,.7);
+	width: 50%;
+	min-width: 320px;
+	color: white;
+	padding: 1em;
+	margin: auto;
+	border-radius: 4px;
 }
 
 .banners {
@@ -21,7 +45,7 @@
 }
 
 .banners-row {
-	margin-top: -20px;
+	margin-top: -1px;
 }
 
 .banners img {
@@ -37,6 +61,16 @@
 	}
 	h1 {
 		font-size: 1.4em;
+	}
+}
+
+.notes-img {
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+	img {
+		display: block;
+		margin: 0 auto;
 	}
 }
 

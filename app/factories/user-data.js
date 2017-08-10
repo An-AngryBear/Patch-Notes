@@ -7,7 +7,6 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	  return $q( (resolve, reject) => {
 	    $http.get(`${FirebaseUrl}steamids.json?orderBy="uid"&equalTo="${userId}"`)
 	    .then( (data) => {
-
 	      resolve(data);
 	    })
 	    .catch( (err) => {
@@ -16,6 +15,37 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	    });
 	  });
 	};
+
+	let getGames = (userId) => {
+	  console.log("userId", userId);
+	  return $q( (resolve, reject) => {
+	    $http.get(`${FirebaseUrl}games.json?orderBy="uid"&equalTo="${userId}"`)
+	    .then( (data) => {
+	      resolve(data.data);
+	    })
+	    .catch( (err) => {
+	      console.log("oops", err);
+	      reject(err);
+	    });
+	  });
+	};
+
+	let deleteGame = (gameId) => {
+	    return $q( (resolve, reject) => {
+	      if (gameId) {
+	        $http.delete(`${FirebaseUrl}games/${gameId}.json`)
+	        .then( (data) => {
+	          resolve(data);
+	        })
+	        .catch( (err) => {
+	          reject(err);
+	        });
+	      } else {
+	        console.log("No id passed in");
+	      }
+	    });
+	};
+
 
 	let postGame = (newItem) => {
 	  return $q( (resolve, reject) => {
@@ -43,5 +73,5 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	  });
 	};
 
-	return {postGame, postSteamId, getSteamId};
+	return {postGame, postSteamId, getSteamId, getGames, deleteGame};
 });

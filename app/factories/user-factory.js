@@ -14,11 +14,8 @@ patchNotesApp.factory("UserFactory", function($q, $http, FirebaseUrl, FBCreds) {
   let isAuthenticated = function() {
     console.log("isAuthenticated called");
     return new Promise( (resolve, reject) => {
-      console.log("firing onAuthStateChanged");
       firebase.auth().onAuthStateChanged(function(user) {
-        console.log("onAuthStateChanged finished");
         if (user) {
-          console.log("user", user);
           currentUser = user.uid;
           resolve(true);
         } else {

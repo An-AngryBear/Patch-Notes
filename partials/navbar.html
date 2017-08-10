@@ -3,8 +3,9 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Patch Notes</a>
       <ul class="navbar-right">
-      	<button ng-click="goLoginPage()" type="button" class="btn btn-default navbar-btn">Log in</button>
-      	<button ng-click="logOut()" type="button" class="btn btn-default navbar-btn">Log Out</button>
+      	<button ng-hide="userCheck()" ng-click="goLoginPage()" type="button" class="btn btn-default navbar-btn">Log in/Register</button>
+      	<button ng-show="userCheck()" ng-click="logOut()" type="button" class="btn btn-default navbar-btn">Log Out</button>
+      	<button ng-click="resetRemoved()" type="button" class="btn btn-default navbar-btn">Reset</button>
       </ul>
     </div>
   </div>

@@ -8,11 +8,10 @@ patchNotesApp.factory("SteamIdFactory", function($q, $http, FirebaseUrl, SteamCr
 		return $q( (resolve, reject) => {
 			$http.get(`http://localhost:4000/steam/${steamProfileName}/${apiKey}`)
 			.then( (steamInfo) => {
-				console.log(steamInfo);
 				resolve(steamInfo.data.response.steamid);
 			})
 			.catch( (err) => {
-				console.log("please enter valid vanity URL");
+				console.log(err);
 				reject(err);
 			});
 		});
