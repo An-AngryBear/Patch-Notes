@@ -1,9 +1,33 @@
+$darksteam: #222222;
 
+html {
+	background: url(../img/background-img.png) center center fixed;
+	background-size: cover;
+}
 
-.enter-url {
+.enter-url, .enter-login {
 	width: 80%;
 	margin: 0 auto;
 	text-align: center;
+}
+
+.navbar {
+	border-radius: 0;
+	margin-bottom: 0px;
+}
+
+body {
+	background: rgba(0, 0, 0, 0);
+}
+
+.center-box {
+	background-color: rgba(22,22,22,.7);
+	width: 50%;
+	min-width: 320px;
+	color: white;
+	padding: 1em;
+	margin: auto;
+	border-radius: 4px;
 }
 
 .banners {
@@ -21,7 +45,7 @@
 }
 
 .banners-row {
-	margin-top: -20px;
+	margin-top: -1px;
 }
 
 .banners img {
@@ -40,4 +64,34 @@
 	}
 }
 
+.notes-img {
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+	img {
+		display: block;
+		margin: 0 auto;
+	}
+}
 
+.glyphicon-remove, .glyphicon-star-empty {
+	position: absolute;
+	font-size: 1.5em;
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+.glyphicon-remove {
+	color: #af0a0a;
+	top: 2px;
+	right: 2px;
+}
+
+.img-container:hover {
+	box-shadow: 0px 0px 50px purple;
+	z-index: 999;
+	transition-duration: .4s;
+}
+
+.img-container {
+	transition-duration: 1s;
+}

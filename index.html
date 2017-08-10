@@ -10,12 +10,6 @@
 	<body ng-app="PatchNotesApp">
 		<div ng-include="'partials/navbar.html'"></div>
 
-		<!-- <div ng-controller="SteamController">
-
-			<input type="text" ng-model="appid">
-			<button ng-click="fetchNews(appid)">ID Button</button>
-		</div>
- -->
 		<div ng-view></div>
 
 
@@ -27,7 +21,7 @@
 		<!-- Angular -->
 		<script src="lib/node_modules/angular/angular.min.js"></script>
 		<script src="lib/node_modules/angular-route/angular-route.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-sanitize.min.js"></script>
+		<script src="lib/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
 
 		<!-- Firebase -->
 		<script src="lib/node_modules/firebase/firebase.js"></script>
@@ -42,11 +36,13 @@
 		<script src="app/factories/steam-id-factory.js"></script>
 		<script src="app/factories/user-factory.js"></script>
 		<script src="app/factories/game-data-factory.js"></script>
+		<script src="app/factories/user-factory.js"></script>
+		<script src="app/factories/user-data.js"></script>
 
 		<!-- Controllers -->
-		<script src="app/controllers/game-controller.js"></script>
+		<script src="app/controllers/patch-notes-controller.js"></script>
 		<script src="app/controllers/user-controller.js"></script>
-		<script src="app/controllers/steam-controller.js"></script>
+		<script src="app/controllers/game-list-controller.js"></script>
 		<script src="app/controllers/nav-controller.js"></script>
 		<script src="app/controllers/enter-url-controller.js"></script>
 	</body>
