@@ -1,16 +1,16 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function($scope, $routeParams, $window, SteamIdFactory, UserFactory, UserData, GameData, GameFactory) {
+patchNotesApp.controller('SteamController', function($scope, $routeParams, $route, $window, SteamIdFactory, UserFactory, UserData, GameData, GameFactory) {
 
 	$scope.games = [];
 	let userGamesToDisplay = [];
 	let currentUser = null;
 
-	UserFactory.isAuthenticated()
-	.then( (user) => {
-	  console.log("user status:gameList", user);
-	  currentUser = UserFactory.getUser();
-	});
+	// UserFactory.isAuthenticated()
+	// .then( (user) => {
+	//   console.log("user status:gameList", user);
+	//   currentUser = UserFactory.getUser();
+	// });
 
 	$scope.isUserIn = () => {
 		if(currentUser) {

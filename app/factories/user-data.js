@@ -3,7 +3,6 @@
 patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 
 	let getSteamId = (userId) => {
-	  console.log("userId", userId);
 	  return $q( (resolve, reject) => {
 	    $http.get(`${FirebaseUrl}steamids.json?orderBy="uid"&equalTo="${userId}"`)
 	    .then( (data) => {
@@ -17,7 +16,6 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	};
 
 	let getGames = (userId) => {
-	  console.log("userId", userId);
 	  return $q( (resolve, reject) => {
 	    $http.get(`${FirebaseUrl}games.json?orderBy="uid"&equalTo="${userId}"`)
 	    .then( (data) => {
