@@ -1,6 +1,6 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function($scope, $routeParams, $window, SteamIdFactory, UserFactory, UserData, GameData, GameFactory) {
+patchNotesApp.controller('SteamController', function($scope, $routeParams, $route, $window, SteamIdFactory, UserFactory, UserData, GameData, GameFactory) {
 
 	$scope.games = [];
 	let userGamesToDisplay = [];
@@ -13,6 +13,7 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 	});
 
 	$scope.isUserIn = () => {
+		console.log(currentUser);
 		if(currentUser) {
 			return true;
 		} else {
@@ -148,6 +149,21 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $wind
 		UserData.postGame(removedGame)
 		.then( (data) => {
 			fetchSteamGames($routeParams.steamname);
+		});
+	};
+
+	$scope.resetRemoved = () => {
+		UserData.getGames(UserFactory.getUser())
+		.then( (games) => {
+			let removedGames = Object.keys(games);
+			removedGames.map( (gameId) => {
+				UserData.deleteGame(gameId)
+				.then( (data) => {
+					console.log(data);
+					fetchSteamGames($routeParams.steamname);
+				});
+			});
+
 		});
 	};
 

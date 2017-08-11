@@ -2,35 +2,50 @@
 
 patchNotesApp.controller('NavController', function($scope, $routeParams, $window, UserFactory, UserData, $route) {
 
+	let currentUser = null;
+
 	$scope.goLoginPage = () => {
 		$window.location.href = '#!/login';
 	};
 
+	// $scope.areThereGames = () => {
+	// 	UserData.getGames()
+	// 	.then( (data) => {
+	// 		console.log("is it null?", data.data);
+	// 		if(data.data) {
+	// 			return true;
+	// 		} else {
+	// 			return false;
+	// 		}
+	// 	});
+	// };
+
+	UserFactory.isAuthenticated()
+	.then( (user) => {
+	  console.log("user status:gameList", user);
+	  currentUser = UserFactory.getUser();
+	});
+
 	$scope.logOut = () => {
 		UserFactory.logoutUser()
 		.then( (data) => {
-			$window.location.href = '#!/enter-url.html';
-		});
-	};
-
-	$scope.resetRemoved = () => {
-		UserData.getGames(UserFactory.getUser())
-		.then( (games) => {
-			let removedGames = Object.keys(games);
-			removedGames.map( (gameId) => {
-				UserData.deleteGame(gameId)
-				.then( (data) => {
-					console.log(data);
-					$route.reload();
-				});
-			});
-
+			currentUser = null;
+			$window.location.href = '#!/';
 		});
 	};
 
 	$scope.userCheck = () => {
-		let currentUser = UserFactory.getUser();
+		console.log("USER??", currentUser);
+		// currentUser = UserFactory.getUser();
 		if(currentUser) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	$scope.gameListCheck = () => {
+		if($route.current.loadedTemplateUrl === 'partials/game-list.html') {
 			return true;
 		} else {
 			return false;
