@@ -8,6 +8,18 @@ patchNotesApp.controller('NavController', function($scope, $routeParams, $window
 		$window.location.href = '#!/login';
 	};
 
+	// $scope.areThereGames = () => {
+	// 	UserData.getGames()
+	// 	.then( (data) => {
+	// 		console.log("is it null?", data.data);
+	// 		if(data.data) {
+	// 			return true;
+	// 		} else {
+	// 			return false;
+	// 		}
+	// 	});
+	// };
+
 	UserFactory.isAuthenticated()
 	.then( (user) => {
 	  console.log("user status:gameList", user);
@@ -23,6 +35,7 @@ patchNotesApp.controller('NavController', function($scope, $routeParams, $window
 	};
 
 	$scope.userCheck = () => {
+		console.log("USER??", currentUser);
 		// currentUser = UserFactory.getUser();
 		if(currentUser) {
 			return true;

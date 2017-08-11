@@ -19,7 +19,9 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	  return $q( (resolve, reject) => {
 	    $http.get(`${FirebaseUrl}games.json?orderBy="uid"&equalTo="${userId}"`)
 	    .then( (data) => {
+	    	console.log(Object.values(data.data));
 	      resolve(data.data);
+
 	    })
 	    .catch( (err) => {
 	      console.log("oops", err);

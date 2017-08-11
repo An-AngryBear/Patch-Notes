@@ -6,13 +6,14 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $rout
 	let userGamesToDisplay = [];
 	let currentUser = null;
 
-	// UserFactory.isAuthenticated()
-	// .then( (user) => {
-	//   console.log("user status:gameList", user);
-	//   currentUser = UserFactory.getUser();
-	// });
+	UserFactory.isAuthenticated()
+	.then( (user) => {
+	  console.log("user status:gameList", user);
+	  currentUser = UserFactory.getUser();
+	});
 
 	$scope.isUserIn = () => {
+		console.log(currentUser);
 		if(currentUser) {
 			return true;
 		} else {

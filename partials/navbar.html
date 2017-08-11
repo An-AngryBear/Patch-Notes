@@ -1,12 +1,12 @@
 <nav class="navbar navbar-inverse" ng-controller="NavController">
   <div class="container-fluid">
-    <div class="navbar-header">
+    <!-- <div class="navbar-header"> -->
       <a class="navbar-brand" href="#">Patch Notes</a>
       <ul class="navbar-right">
-      	<button ng-hide="userCheck()" ng-click="goLoginPage()" type="button" class="btn btn-default navbar-btn">Log in/Register</button>
-      	<button ng-show="userCheck()" ng-click="logOut()" type="button" class="btn btn-default navbar-btn">Log Out</button>
-      	<button ng-show="gameListCheck() && userCheck()" ng-click="resetRemoved()" type="button" class="btn btn-default navbar-btn">Reset</button>
+      	<a class="nav-links" ng-hide="userCheck()" ng-click="goLoginPage()">Log in/Register</a>
+      	<a class="nav-links" ng-show="userCheck()" ng-click="logOut()">Log Out</a>
+      	<a class="nav-links" ng-show="gameListCheck() && userCheck()" ng-click="resetRemoved()">Reset</a>
       </ul>
-    </div>
+    <!-- </div> -->
   </div>
 </nav>

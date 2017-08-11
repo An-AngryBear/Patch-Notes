@@ -3,6 +3,7 @@ $darksteam: #222222;
 html {
 	background: url(../img/background-img.png) center center fixed;
 	background-size: cover;
+	letter-spacing: 1px;
 }
 
 .enter-url, .enter-login {
@@ -21,14 +22,18 @@ body {
 	background: rgba(0, 0, 0, 0);
 }
 
+.container-fluid {
+	min-width: 304px;
+}
 .center-box {
 	background-color: rgba(22,22,22,.7);
 	width: 50%;
-	min-width: 320px;
+	min-width: 304px;
 	color: white;
 	padding: 1em;
 	margin: auto;
 	border-radius: 4px;
+	box-shadow: 2px 2px 40px black;
 }
 
 .banners {
@@ -39,6 +44,7 @@ body {
 	max-height: 100%;
     max-width: 100%;
     overflow:hidden;
+    cursor: pointer;
 }
 
 .banner-container {
@@ -99,4 +105,34 @@ body {
 
 .input-box {
 	color: black;
+	border-radius: 4px;
+}
+
+.navbar-right {
+	padding-top: 1em;
+	margin-right: auto;
+}
+
+.nav-links {
+	color: white;
+	margin-left: 1em;
+	cursor: pointer;
+}
+
+.login {
+	margin-bottom: 1em;
+}
+
+.login-btn, .register-btn {
+	border-radius: 4px;
+	color: white;
+	background-color: $darksteam;
+}
+
+.enter-url-btn {
+	display: block;
+	border-radius: 4px;
+	color: white;
+	background-color: $darksteam;
+	margin: 1em auto;
 }
