@@ -28,7 +28,7 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	//converts BBCode from the API to HTML
 	let parseBBCode = (newsArray) => {
 		let parsedCode = newsArray.map( (newsObj) => {
-			if (newsObj.contents.search(/\[img]|\[b]|\[\*]|\[url|\[list]/g) >= 0) {
+			if (newsObj.contents.search(/\[img]|\[b]|\[\*]|\[url|\[list]/gi) >= 0) {
 				var result = XBBCODE.process({
 				      text: newsObj.contents,
 				      removeMisalignedTags: true,

@@ -1,10 +1,11 @@
 'use strict';
 
-patchNotesApp.controller('SteamController', function($scope, $routeParams, $route, $window, SteamIdFactory, UserFactory, UserData, GameData, GameFactory) {
+patchNotesApp.controller('SteamController', function($scope, $routeParams, FilterFactory, $route, $window, SteamIdFactory, UserFactory, UserData, GameFactory) {
 
 	$scope.games = [];
 	let userGamesToDisplay = [];
 	let currentUser = null;
+	$scope.searchFilter = FilterFactory;
 
 	UserFactory.isAuthenticated()
 	.then( (user) => {
@@ -132,6 +133,7 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, $rout
 				narrowGamesForDOM(userGamesToDisplay)
 				.then( (narrowedGames) =>{
 					addBannerToObj(narrowedGames);
+					console.log(narrowedGames);
 					$scope.games = narrowedGames;
 				});
 			} else {

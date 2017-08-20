@@ -1,4 +1,4 @@
-$darksteam: #222222;
+$darksteam: #101412;
 
 html {
 	background: url(../img/background-img.png) center center fixed;
@@ -15,7 +15,7 @@ html {
 .navbar {
 	border-radius: 0;
 	margin-bottom: 0px;
-	background-color: #101412;
+	background-color: $darksteam;
 }
 
 body {
@@ -23,12 +23,12 @@ body {
 }
 
 .container-fluid {
-	min-width: 304px;
+	min-width: 308px;
 }
 .center-box {
 	background-color: rgba(22,22,22,.7);
 	width: 50%;
-	min-width: 304px;
+	min-width: 308px;
 	color: white;
 	padding: 1em;
 	margin: auto;
@@ -101,6 +101,13 @@ body {
 
 .img-container {
 	transition-duration: 1s;
+}
+
+.filter-btn, .all-games-btn {
+	width: 10%;
+	margin-top: .5em;
+	display: inline-block;
+	min-width: 135px;
 }
 
 .input-box {
