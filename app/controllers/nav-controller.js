@@ -1,6 +1,6 @@
 'use strict';
 
-patchNotesApp.controller('NavController', function($scope, $routeParams, $window, UserFactory, UserData, $route) {
+patchNotesApp.controller('NavController', function($scope, FilterFactory, $routeParams, $window, UserFactory, UserData, $route) {
 
 	let currentUser = null;
 
@@ -8,17 +8,7 @@ patchNotesApp.controller('NavController', function($scope, $routeParams, $window
 		$window.location.href = '#!/login';
 	};
 
-	// $scope.areThereGames = () => {
-	// 	UserData.getGames()
-	// 	.then( (data) => {
-	// 		console.log("is it null?", data.data);
-	// 		if(data.data) {
-	// 			return true;
-	// 		} else {
-	// 			return false;
-	// 		}
-	// 	});
-	// };
+	$scope.searchFilter = FilterFactory;
 
 	UserFactory.isAuthenticated()
 	.then( (user) => {

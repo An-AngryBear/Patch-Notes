@@ -2,6 +2,8 @@
   <div class="container-fluid">
     <!-- <div class="navbar-header"> -->
       <a class="navbar-brand" href="#">Patch Notes</a>
+      <input type="text" class="form-control filter-btn" placeholder="Search" ng-model="searchFilter.filterTitle">
+      <input type="text" class="form-control all-games-btn" placeholder="Search all games">
       <ul class="navbar-right">
       	<a class="nav-links" ng-hide="userCheck()" ng-click="goLoginPage()">Log in/Register</a>
       	<a class="nav-links" ng-show="userCheck()" ng-click="logOut()">Log Out</a>
