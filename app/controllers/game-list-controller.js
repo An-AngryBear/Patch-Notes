@@ -10,12 +10,10 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 
 	UserFactory.isAuthenticated()
 	.then( (user) => {
-	  console.log("user status:gameList", user);
 	  currentUser = UserFactory.getUser();
 	});
 
 	$scope.isUserIn = () => {
-		console.log(currentUser);
 		if(currentUser) {
 			return true;
 		} else {
@@ -65,12 +63,13 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 							return game.appid;
 						}
 					});
+					console.log("IDS to remove", idsToRemove);
 					let updatedGames = arrOfGames.filter( (game) => {
 						if(idsToRemove.indexOf(game.appid) === -1) {
 							return game;
 						}
 					});
-
+					console.log("updated", updatedGames);
 					resolve(updatedGames);
 				});
 			});
@@ -146,14 +145,32 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 	};
 
 	$scope.hideClickedGame = (appid) => {
-		let removedGame = {
-			uid: currentUser,
-			appid: appid,
-			removed: true
-		};
-		UserData.postGame(removedGame)
-		.then( (data) => {
-			fetchSteamGames($routeParams.steamname);
+		UserData.getGames(currentUser)
+		.then( (gamesdata) => {
+			let gamesToMatch = Object.values(gamesdata).filter( (game) => {
+				return game.appid == appid;
+			});
+			let newProp = {removed: true};
+			if(gamesToMatch.length > 0) {
+				for(let key in gamesdata) {
+					if(gamesdata[key].appid == gamesToMatch[0].appid) {
+						UserData.patchGame(key, newProp)
+						.then( (data) => {
+							fetchSteamGames($routeParams.steamname);
+						});
+					}
+				}
+			} else {
+				let removedGame = {
+					uid: currentUser,
+					appid: appid,
+					removed: true
+				};
+				UserData.postGame(removedGame)
+				.then( (data) => {
+					fetchSteamGames($routeParams.steamname);
+				});
+			}
 		});
 	};
 

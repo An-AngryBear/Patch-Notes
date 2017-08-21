@@ -4,8 +4,8 @@
 		<img src={{gameObj.banner}}>
 	</div>
 	<div class="add-remove-faves">
-		<button class="enter-url-btn" ng-click="saveGame()">Add to Saved Games</button>
-		<button class="enter-url-btn">Remove from Saved Games</button>
+		<button class="enter-url-btn" ng-show="isUserIn() && !doesUserHaveSaved()" ng-click="saveGame()">Add to Saved Games</button>
+		<button class="enter-url-btn" ng-show="isUserIn() && doesUserHaveSaved()" ng-click="removeFromSaved()">Remove from Saved Games</button>
 	</div>
 	<div ng-repeat="news in gameNews | filter: filterFn">
 		<h3 class="news-titles">{{news.title}}</h3>

@@ -25,7 +25,6 @@ patchNotesApp.controller('NavController', function($scope, FilterFactory, $route
 	};
 
 	$scope.userCheck = () => {
-		console.log("USER??", currentUser);
 		// currentUser = UserFactory.getUser();
 		if(currentUser) {
 			return true;

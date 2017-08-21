@@ -5,8 +5,25 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	let currentUser;
 	$scope.gameObj = {};
 	$scope.gameNews = [];
+	let userOwns = null;
+
+	let gameCheck = () => {
+		UserData.getGames(currentUser)
+		.then( (gamesdata) => {
+			userOwns = Object.values(gamesdata).filter( (game) => {
+				return game.appid == $routeParams.appid;
+			});
+		});
+	};
 
 	//filters to show news hits based on keywords
+	UserFactory.isAuthenticated()
+	.then( (user) => {
+	  console.log("user status:gameList", user);
+	  currentUser = UserFactory.getUser();
+	  gameCheck();
+	});
+
 	$scope.filterFn = function(news) {
 	    if(news.title.search(/update|fix|expansion|build|patch|\.0|\.1|\.2|\.3|\.4|\.5|\.6|\.7|\.8|\.9/i) >= 0) {
 	        return true;
@@ -14,26 +31,68 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	    return false;
 	};
 
+	$scope.isUserIn = () => {
+		if(currentUser) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	$scope.doesUserHaveSaved = () => {
+		console.log("does user trigger");
+			console.log("games tomatch", userOwns);
+			if(userOwns && userOwns.length > 0 && userOwns[0].removed === false) {
+				return true;
+			} else {
+				return false;
+			}
+	};
+
+
 	$scope.saveGame = () => {
 		UserData.getGames(currentUser)
 		.then( (gamesdata) => {
 			let gamesToMatch = Object.values(gamesdata).filter( (game) => {
 				return game.appid == $routeParams.appid;
 			});
+			let newProp = {removed: false};
 			if(gamesToMatch.length > 0) {
-
+				for(let key in gamesdata) {
+					if(gamesdata[key].appid == gamesToMatch[0].appid) {
+						UserData.patchGame(key, newProp)
+						.then( (data) => {
+							console.log("GAYME?", gamesToMatch[0]);
+							gameCheck();
+						});
+					}
+				}
+			} else {
+				let addGame = {
+					uid: currentUser,
+					appid: parseInt($routeParams.appid),
+					removed: false
+				};
+				UserData.postGame(addGame)
+				.then( (data) => {
+					gameCheck();
+				});
 			}
-
 		});
-		// let removedGame = {
-		// 	uid: currentUser,
-		// 	appid: appid,
-		// 	removed: false
-		// };
-		// UserData.postGame(SavedGame)
-		// .then( (data) => {
+	};
 
-		// });
+	$scope.removeFromSaved = () => {
+		UserData.getGames(currentUser)
+		.then( (gamesdata) => {
+			for(let key in gamesdata) {
+				if(gamesdata[key].appid == $routeParams.appid) {
+					UserData.deleteGame(key)
+					.then( (data) => {
+						userOwns = null;
+					});
+				}
+			}
+		});
 	};
 
 	//cleans up all left over BBCode
@@ -84,10 +143,5 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 
 	displayPatchNotes();
 
-	UserFactory.isAuthenticated()
-	.then( (user) => {
-	  console.log("user status:gameList", user);
-	  currentUser = UserFactory.getUser();
-	});
 
 });

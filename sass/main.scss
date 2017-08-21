@@ -15,6 +15,7 @@ html {
 .dropdown-menu {
 	background-color: $darksteam;
 	width: 300px;
+	margin-top: -1px !important;
 }
 
 .dropdown-menu > li > a {
