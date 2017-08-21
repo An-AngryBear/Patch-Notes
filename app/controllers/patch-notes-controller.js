@@ -1,7 +1,8 @@
 'use strict';
 
-patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, $window, GameFactory, UserData) {
+patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, $window, GameFactory, UserData, UserFactory) {
 
+	let currentUser;
 	$scope.gameObj = {};
 	$scope.gameNews = [];
 
@@ -11,6 +12,28 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	        return true;
 	    }
 	    return false;
+	};
+
+	$scope.saveGame = () => {
+		UserData.getGames(currentUser)
+		.then( (gamesdata) => {
+			let gamesToMatch = Object.values(gamesdata).filter( (game) => {
+				return game.appid == $routeParams.appid;
+			});
+			if(gamesToMatch.length > 0) {
+
+			}
+
+		});
+		// let removedGame = {
+		// 	uid: currentUser,
+		// 	appid: appid,
+		// 	removed: false
+		// };
+		// UserData.postGame(SavedGame)
+		// .then( (data) => {
+
+		// });
 	};
 
 	//cleans up all left over BBCode
@@ -60,5 +83,11 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	};
 
 	displayPatchNotes();
+
+	UserFactory.isAuthenticated()
+	.then( (user) => {
+	  console.log("user status:gameList", user);
+	  currentUser = UserFactory.getUser();
+	});
 
 });

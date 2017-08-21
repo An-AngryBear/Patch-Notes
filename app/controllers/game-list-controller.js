@@ -2,7 +2,6 @@
 
 patchNotesApp.controller('SteamController', function($scope, $routeParams, FilterFactory, $route, $window, SteamIdFactory, UserFactory, UserData, GameFactory) {
 
-	$scope.searchLimit = 6;
 	$scope.games = [];
 	$scope.allGames = [];
 	let userGamesToDisplay = [];
@@ -23,8 +22,6 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 			return false;
 		}
 	};
-
-	// $scope.allGamesSearch = "";
 
 	//takes an array of games and filters them out by what the user has played in the
 	//last two weeks. sticks them in userGamesToDisplay array
