@@ -54,6 +54,8 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 
 	let removeGamesFromList = (arrOfGames) => {
 		let updatedGames;
+		let savedGamesIds = [];
+		let savedGames = [];
 		return new Promise( (resolve, reject) => {
 			UserData.getGames(currentUser)
 				.then( (games) => {
@@ -61,16 +63,23 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 					let idsToRemove = gamesToCheckFor.map( (game) => {
 						if(game.removed === true) {
 							return game.appid;
+						} else {
+							savedGamesIds.push(game.appid);
+							return game.appid;
 						}
 					});
-					console.log("IDS to remove", idsToRemove);
+					let savedGamesFullInfo = arrOfGames.filter( (game) => {
+						if(savedGamesIds.indexOf(game.appid) >= 0) {
+							return game;
+						}
+					});
 					let updatedGames = arrOfGames.filter( (game) => {
 						if(idsToRemove.indexOf(game.appid) === -1) {
 							return game;
 						}
 					});
-					console.log("updated", updatedGames);
-					resolve(updatedGames);
+					let finalGameList = savedGamesFullInfo.concat(updatedGames);
+					resolve(finalGameList);
 				});
 			});
 	};
@@ -128,15 +137,14 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 		})
 		.then( (games) => {
 			if (games) {
+				userGamesToDisplay = [];
 				$scope.allGames = games.games;
 				getRecentGames(games);
 				getPlayedGames(games);
 				narrowGamesForDOM(userGamesToDisplay)
 				.then( (narrowedGames) =>{
 					addBannerToObj(narrowedGames);
-					console.log(narrowedGames);
 					$scope.games = narrowedGames;
-					console.log($scope.allGames);
 				});
 			} else {
 				$window.alert("Please Enter Valid Vanity URL name or Steam ID");
@@ -177,11 +185,15 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 	$scope.resetRemoved = () => {
 		UserData.getGames(UserFactory.getUser())
 		.then( (games) => {
-			let removedGames = Object.keys(games);
-			removedGames.map( (gameId) => {
+			let keysToRemove = [];
+			for(let key in games) {
+				if(games[key].removed === true) {
+					keysToRemove.push(key);
+				}
+			}
+			keysToRemove.map( (gameId) => {
 				UserData.deleteGame(gameId)
 				.then( (data) => {
-					console.log(data);
 					fetchSteamGames($routeParams.steamname);
 				});
 			});

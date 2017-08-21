@@ -9,7 +9,7 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	      resolve(data);
 	    })
 	    .catch( (err) => {
-	      console.log("oops", err);
+	      console.log("getSteamId error", err);
 	      reject(err);
 	    });
 	  });
@@ -22,7 +22,7 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	      resolve(data.data);
 	    })
 	    .catch( (err) => {
-	      console.log("oops", err);
+	      console.log("GetGames error", err);
 	      reject(err);
 	    });
 	  });
@@ -36,6 +36,7 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	          resolve(data);
 	        })
 	        .catch( (err) => {
+	          console.log("deleteGame", err);
 	          reject(err);
 	        });
 	      } else {

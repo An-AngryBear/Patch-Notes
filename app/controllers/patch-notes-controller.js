@@ -19,7 +19,6 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	//filters to show news hits based on keywords
 	UserFactory.isAuthenticated()
 	.then( (user) => {
-	  console.log("user status:gameList", user);
 	  currentUser = UserFactory.getUser();
 	  gameCheck();
 	});
@@ -40,13 +39,11 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	};
 
 	$scope.doesUserHaveSaved = () => {
-		console.log("does user trigger");
-			console.log("games tomatch", userOwns);
-			if(userOwns && userOwns.length > 0 && userOwns[0].removed === false) {
-				return true;
-			} else {
-				return false;
-			}
+		if(userOwns && userOwns.length > 0 && userOwns[0].removed === false) {
+			return true;
+		} else {
+			return false;
+		}
 	};
 
 
@@ -62,7 +59,6 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 					if(gamesdata[key].appid == gamesToMatch[0].appid) {
 						UserData.patchGame(key, newProp)
 						.then( (data) => {
-							console.log("GAYME?", gamesToMatch[0]);
 							gameCheck();
 						});
 					}

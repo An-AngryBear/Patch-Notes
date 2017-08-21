@@ -12,7 +12,6 @@ patchNotesApp.controller('NavController', function($scope, FilterFactory, $route
 
 	UserFactory.isAuthenticated()
 	.then( (user) => {
-	  console.log("user status:gameList", user);
 	  currentUser = UserFactory.getUser();
 	});
 
@@ -25,7 +24,6 @@ patchNotesApp.controller('NavController', function($scope, FilterFactory, $route
 	};
 
 	$scope.userCheck = () => {
-		// currentUser = UserFactory.getUser();
 		if(currentUser) {
 			return true;
 		} else {
