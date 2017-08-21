@@ -9,7 +9,7 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	      resolve(data);
 	    })
 	    .catch( (err) => {
-	      console.log("oops", err);
+	      console.log("getSteamId error", err);
 	      reject(err);
 	    });
 	  });
@@ -19,12 +19,10 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	  return $q( (resolve, reject) => {
 	    $http.get(`${FirebaseUrl}games.json?orderBy="uid"&equalTo="${userId}"`)
 	    .then( (data) => {
-	    	console.log(Object.values(data.data));
 	      resolve(data.data);
-
 	    })
 	    .catch( (err) => {
-	      console.log("oops", err);
+	      console.log("GetGames error", err);
 	      reject(err);
 	    });
 	  });
@@ -38,6 +36,7 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	          resolve(data);
 	        })
 	        .catch( (err) => {
+	          console.log("deleteGame", err);
 	          reject(err);
 	        });
 	      } else {
@@ -60,6 +59,20 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	  });
 	};
 
+	let patchGame = (gameId, newProp) => {
+	  return $q( (resolve, reject) => {
+	    $http.patch(`${FirebaseUrl}games/${gameId}.json`,
+	      angular.toJson(newProp))
+	    .then( (data) => {
+	    	console.log(data);
+	      resolve(data);
+	    })
+	    .catch( (err) => {
+	      reject(err);
+	    });
+	  });
+	};
+
 	let postSteamId = (newItem) => {
 	  return $q( (resolve, reject) => {
 	    $http.post(`${FirebaseUrl}steamids.json`,
@@ -73,5 +86,5 @@ patchNotesApp.factory("UserData", function($q, $http, FirebaseUrl) {
 	  });
 	};
 
-	return {postGame, postSteamId, getSteamId, getGames, deleteGame};
+	return {postGame, postSteamId, getSteamId, getGames, deleteGame, patchGame};
 });
