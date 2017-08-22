@@ -7,6 +7,7 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	$scope.gameNews = [];
 	let userOwns = null;
 
+	// if user has current game saved on their account, will stick in an array
 	let gameCheck = () => {
 		UserData.getGames(currentUser)
 		.then( (gamesdata) => {
@@ -23,6 +24,7 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	  gameCheck();
 	});
 
+	// uses keywords to filter through news hits from steam
 	$scope.filterFn = function(news) {
 	    if(news.title.search(/update|fix|expansion|build|patch|\.0|\.1|\.2|\.3|\.4|\.5|\.6|\.7|\.8|\.9/i) >= 0) {
 	        return true;
@@ -38,6 +40,7 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 		}
 	};
 
+	//check for if the game is saved for use with ng-show
 	$scope.doesUserHaveSaved = () => {
 		if(userOwns && userOwns.length > 0 && userOwns[0].removed === false) {
 			return true;
@@ -46,7 +49,7 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 		}
 	};
 
-
+	//saves game to firebase associated with the user
 	$scope.saveGame = () => {
 		UserData.getGames(currentUser)
 		.then( (gamesdata) => {
@@ -77,6 +80,7 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 		});
 	};
 
+	//removes the game from firebase
 	$scope.removeFromSaved = () => {
 		UserData.getGames(currentUser)
 		.then( (gamesdata) => {
@@ -138,6 +142,5 @@ patchNotesApp.controller('PatchNotesController', function($scope, $routeParams, 
 	};
 
 	displayPatchNotes();
-
 
 });

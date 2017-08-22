@@ -41,6 +41,10 @@ html {
 	font-family: 'Exo 2', sans-serif;
 }
 
+.banner-div {
+	height:100%;
+}
+
 body {
 	background: rgba(0, 0, 0, 0);
 }
@@ -91,8 +95,8 @@ body {
 }
 
 .banners img {
-	width: 100%;
-	height: 100%;
+	height: 100% !important;
+	width: 100%	;
 }
 
 .game-news {
@@ -116,7 +120,7 @@ body {
 	}
 }
 
-.glyphicon-remove, .glyphicon-star-empty {
+.glyphicon-remove {
 	position: absolute;
 	font-size: 1.5em;
 	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
@@ -126,6 +130,7 @@ body {
 	color: #af0a0a;
 	top: 2px;
 	right: 2px;
+	transition-duration: 1s;
 }
 
 .img-container:hover {
@@ -174,12 +179,6 @@ body {
 	}
 }
 
-// @media (min-width: 320px) {
-// 	.navbar-right, .navbar-header {
-// 		display: inline-block !important;
-// 	}
-// }
-
 .input-box {
 	color: black;
 	border-radius: 4px;
@@ -189,6 +188,7 @@ body {
 	font-size: 1.2em;
 	cursor: pointer;
 }
+
 .login {
 	margin-bottom: 1em;
 }

@@ -13,6 +13,7 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 	  currentUser = UserFactory.getUser();
 	});
 
+	//runs a check for ng-show to see if a user is logged in
 	$scope.isUserIn = () => {
 		if(currentUser) {
 			return true;
@@ -32,7 +33,7 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 	};
 
 	//takes an array of games and filters them out by games the user has over 5 hours in
-	//and hasn't been recently played sorts them in descending order starting with the
+	//and hasn't been recently played, sorts them in descending order starting with the
 	//most played game. adds to the userGamesToDisplay array, so as to come *after* the
 	//most recently played games
 	let getPlayedGames = (games) => {
@@ -48,19 +49,21 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 		userGamesToDisplay = userGamesToDisplay.concat(playedGames);
 	};
 
+	//redirects to a game's patch notes
 	$scope.goToClickedGame = (appId) =>{
 		$window.location.href = `#!/patch-notes/${appId}`;
 	};
 
-	let removeGamesFromList = (arrOfGames) => {
+	//sorts games by priority. 'saved': 1st priority. 'played in last 2 weeks':2nd, 'most hours played': 2nd.
+	//removes 'removed' games.
+	let sortGames = (arrOfGames) => {
 		let updatedGames;
 		let savedGamesIds = [];
 		let savedGames = [];
 		return new Promise( (resolve, reject) => {
 			UserData.getGames(currentUser)
 				.then( (games) => {
-					let gamesToCheckFor = Object.values(games);
-					let idsToRemove = gamesToCheckFor.map( (game) => {
+					let idsToRemove = Object.values(games).map( (game) => {
 						if(game.removed === true) {
 							return game.appid;
 						} else {
@@ -84,10 +87,11 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 			});
 	};
 
+	//calls the sorting function and cuts down the top hits to 20
 	let narrowGamesForDOM = (arrOfGames) => {
 		let narrowedGames;
 		return new Promise( (resolve, reject) => {
-			removeGamesFromList(arrOfGames)
+			sortGames(arrOfGames)
 			.then( (updatedGames) => {
 				narrowedGames = updatedGames.slice(0, 20);
 				resolve(narrowedGames);
@@ -95,6 +99,7 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 		});
 	};
 
+	// retrieves game banners to be displayed in DOM
 	let addBannerToObj = (arrayOfGameObjs) => {
 		let updatedGameObjs = arrayOfGameObjs.forEach( (game) => {
 			GameFactory.getGameBanner(game.appid)
@@ -104,6 +109,7 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 		});
 	};
 
+	//associates a steam ID witha user
 	let saveSteamId = (steamId) => {
 		UserData.getSteamId(currentUser)
 		.then( (steamID) => {
@@ -152,6 +158,7 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 		});
 	};
 
+	//removes game from DOM on click by adding a 'removed' tag and saving to firebase, then reloading the gamelist.
 	$scope.hideClickedGame = (appid) => {
 		UserData.getGames(currentUser)
 		.then( (gamesdata) => {
@@ -182,6 +189,8 @@ patchNotesApp.controller('SteamController', function($scope, $routeParams, Filte
 		});
 	};
 
+	//deletes all games from database associated with a user that have the property "removed=true", and thus
+	//returns them to the DOM if in the top 20 hits.
 	$scope.resetRemoved = () => {
 		UserData.getGames(UserFactory.getUser())
 		.then( (games) => {

@@ -23,6 +23,7 @@ patchNotesApp.controller('NavController', function($scope, FilterFactory, $route
 		});
 	};
 
+	//checks for a current user for use with ng-show
 	$scope.userCheck = () => {
 		if(currentUser) {
 			return true;
@@ -31,6 +32,7 @@ patchNotesApp.controller('NavController', function($scope, FilterFactory, $route
 		}
 	};
 
+	//checks if on the gamelist view for use with ng-show
 	$scope.gameListCheck = () => {
 		if($route.current.loadedTemplateUrl === 'partials/game-list.html') {
 			return true;
@@ -38,6 +40,4 @@ patchNotesApp.controller('NavController', function($scope, FilterFactory, $route
 			return false;
 		}
 	};
-
-
 });
