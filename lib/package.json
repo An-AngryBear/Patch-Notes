@@ -16,6 +16,7 @@
     "angular-sanitize": "^1.6.5",
     "bootstrap": "^3.3.7",
     "firebase": "^4.1.5",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "xbbcode-parser": "^0.1.2"
   }
 }
