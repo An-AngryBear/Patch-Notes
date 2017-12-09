@@ -8,7 +8,7 @@ patchNotesApp.factory("UserFactory", function($q, $http, FirebaseUrl) {
   //asks the server for FB creds
   let getFBConfig = () => {
 		return $q( (resolve, reject) => {
-			$http.get(`http://localhost:4000/fbconfig`)
+			$http.get(`/fbconfig`)
 			.then( (fbconfig) => {
 				resolve(fbconfig.data);
 			})

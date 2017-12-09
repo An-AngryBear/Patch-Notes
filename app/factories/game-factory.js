@@ -4,7 +4,7 @@ patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl) {
 
 	let getOwnedGames = (steamId) => {
 		return $q( (resolve, reject) => {
-			$http.get(`http://localhost:4000/game/${steamId}`)
+			$http.get(`/game/${steamId}`)
 			.then( (steamInfo) => {
 				resolve(steamInfo.data.response);
 			})
@@ -16,7 +16,7 @@ patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl) {
 
 	let getGameNews = (appId) => {
 		return $q( (resolve, reject) => {
-			$http.get(`http://localhost:4000/news/gamenews/${appId}`)
+			$http.get(`/news/gamenews/${appId}`)
 			.then( (steamInfo) => {
 				resolve(steamInfo.data.appnews.newsitems);
 			})

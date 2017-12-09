@@ -4,7 +4,7 @@ patchNotesApp.factory("SteamIdFactory", function($q, $http, FirebaseUrl) {
 	
 	let getSteamId = (steamProfileName) => {
 		return $q( (resolve, reject) => {
-			$http.get(`http://localhost:4000/steam/${steamProfileName}`)
+			$http.get(`/steam/${steamProfileName}`)
 			.then( (steamInfo) => {
 				resolve(steamInfo.data.response.steamid);
 			})
