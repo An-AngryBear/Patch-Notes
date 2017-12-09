@@ -1,28 +1,52 @@
 'use strict';
 
-patchNotesApp.factory("UserFactory", function($q, $http, FirebaseUrl, FBCreds) {
+patchNotesApp.factory("UserFactory", function($q, $http, FirebaseUrl) {
+  
+  var config = null;
+  let currentUser = null;
 
-	var config = {
-	    apiKey: FBCreds.key,
-	    authDomain: FBCreds.authDomain
+  //asks the server for FB creds
+  let getFBConfig = () => {
+		return $q( (resolve, reject) => {
+			$http.get(`http://localhost:4000/fbconfig`)
+			.then( (fbconfig) => {
+				resolve(fbconfig.data);
+			})
+			.catch( (err) => {
+				reject(err);
+			});
+		});
 	};
 
-	firebase.initializeApp(config);
+  //checks to see if the current user is set
+  let authCheck = (resolve) => {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        currentUser = user.uid;
+        resolve(true);
+      } else {
+        currentUser = null;
+        resolve(false);
+      }
+    });
+  };
 
-	let currentUser = null;
-
+  //if there are no fb creds, makes call for them then checks if authenticated. if there are fb creds, skips call and checks if authenticated
   let isAuthenticated = function() {
-    console.log("isAuthenticated called");
     return new Promise( (resolve, reject) => {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          currentUser = user.uid;
-          resolve(true);
-        } else {
-          currentUser = null;
-          resolve(false);
-        }
-      });
+      if(!config) {
+        getFBConfig()
+        .then( (data) => {
+            config = {
+              apiKey: data.apikey,
+              authDomain: data.authDomain
+            };
+            firebase.initializeApp(config);
+            authCheck(resolve);
+        });
+      } else {
+        authCheck(resolve);
+      }
     });
   };
 
@@ -33,7 +57,6 @@ patchNotesApp.factory("UserFactory", function($q, $http, FirebaseUrl, FBCreds) {
   let createUser = (userObj) => {
     return firebase.auth().createUserWithEmailAndPassword(userObj.email, userObj.password)
     .catch( (err) => {
-      console.log("USER CREATE ERROR", err.message);
     });
   };
 
@@ -45,7 +68,6 @@ patchNotesApp.factory("UserFactory", function($q, $http, FirebaseUrl, FBCreds) {
         resolve(user);
       })
       .catch( (err) => {
-        console.log("LOG IN ERROR", err.message);
       });
     });
   };
@@ -53,10 +75,9 @@ patchNotesApp.factory("UserFactory", function($q, $http, FirebaseUrl, FBCreds) {
   let logoutUser = () => {
     return firebase.auth().signOut()
     .catch( (err) => {
-      console.log("LOG OUT ERROR", err.message);
     });
   };
 
-	return {isAuthenticated, getUser, createUser, loginUser, logoutUser};
+	return {isAuthenticated, getUser, createUser, loginUser, logoutUser, getFBConfig};
 
 });

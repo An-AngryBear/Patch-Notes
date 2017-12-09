@@ -1,5 +1,5 @@
 css
-lib/node_modules
+node_modules
 values
-lib/.sass-cache
-server/node_modules
+.sass-cache
+.env

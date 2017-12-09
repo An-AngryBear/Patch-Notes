@@ -1,12 +1,10 @@
 'use strict';
 
-patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl, SteamCreds) {
-
-	let apiKey = SteamCreds.key;
+patchNotesApp.factory("GameFactory", function($q, $http, FirebaseUrl) {
 
 	let getOwnedGames = (steamId) => {
 		return $q( (resolve, reject) => {
-			$http.get(`http://localhost:4000/game/${apiKey}/${steamId}`)
+			$http.get(`http://localhost:4000/game/${steamId}`)
 			.then( (steamInfo) => {
 				resolve(steamInfo.data.response);
 			})

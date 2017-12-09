@@ -8,22 +8,22 @@ module.exports = function(grunt) {
         globalstrict: true,
         globals: {"angular": true, "patchNotesApp": true} //need to add app module's name
       },
-      files: ['../app/**/*.js']
+      files: ['./app/**/*.js']
     },
     sass: {
       dist: {
         files: {
-          '../css/main.css': '../sass/main.scss'
+          './css/main.css': './sass/main.scss'
         }
       }
     },
     watch: {
       javascripts: {
-        files: ['../app/**/*.js'],
+        files: ['/app/**/*.js'],
         tasks: ['jshint']
       },
       sass: {
-        files: ['../sass/**/*.scss'],
+        files: ['./sass/**/*.scss'],
         tasks: ['sass']
       }
     }
